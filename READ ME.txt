@@ -1,0 +1,17 @@
+Практична #7.2 (складність: 5 s.p.) Мета: Швидко оновлюване АПІ на AWS
+Створити CRUD REST-API, наприклад TODO-список (що/коли/статус)
+Із авто-документацією і збереженням у ін-меморі/postgresql/mariadb
+ToDo-задачі мають проходити стани
+Стартовий стан Planned, далі
+-> {Work_in_progress | Postponed } -> {Notified | Signed} -> Done, напрям зміни стану - односторонній,  але не обов’язковий.
+Done і Cancelled - фінальні (незмінні) стани. Cancelled з будь якого стану.
+Використайте enum для стану, покрийте тестами логіку зміну стану.
+Задеплоїти jar із API на власний ресурс AWS Elastic Beanstalk
+Aws BeanStalk  + deploying-a-spring-boot-application-on-aws-using-aws-elastic-beanstalk/
+https://aws.plainenglish.io/deploy-spring-boot-applications-into-aws-elastic-beanstalk-b2204d8fbd9c
+https://github.com/marketplace/actions/beanstalk-deploy
+
+
+Написати шелл-скрипти із викликами API за допомогою curl
+Додати до АПІ пару користувачів із різними ролями та i18n
+(мову визначає клієнт АПІ параметри запиту/заголовки - на смак)
