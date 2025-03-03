@@ -10,6 +10,9 @@ import java.util.Set;
 @Builder
 public class AuthResponseDTO {
     private String username;
+
+//    @JsonIgnore
+//    @Hidden
     private String accessToken;
     private Set<RoleName> roles;
 }

@@ -1,5 +1,6 @@
 package shpp.shuba.todo_list.models;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,6 +13,7 @@ import lombok.*;
 @NoArgsConstructor
 @Table(name = "roles")
 public class Role {
+    @Hidden
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

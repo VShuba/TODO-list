@@ -1,6 +1,11 @@
 package shpp.shuba.todo_list.service.role;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import shpp.shuba.todo_list.models.Role;
+import shpp.shuba.todo_list.repository.RoleRepository;
+
+import java.util.List;
 
 /**
  * RoleService
@@ -8,5 +13,18 @@ import org.springframework.stereotype.Service;
  * Додавання ролей (якщо адміну дозволено створювати кастомні ролі)
  */
 @Service
-public class RoleService {
+@RequiredArgsConstructor
+public class RoleService implements IRoleService {
+
+    private final RoleRepository roleRepository;
+
+    @Override
+    public List<Role> getAllRoles() {
+        return roleRepository.findAll();
+    }
+
+    @Override
+    public Role createRole(Role role) {
+        return roleRepository.save(role);
+    }
 }

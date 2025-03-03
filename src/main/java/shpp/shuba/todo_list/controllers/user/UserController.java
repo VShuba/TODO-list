@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import shpp.shuba.todo_list.dto.UserDTO;
@@ -22,10 +22,13 @@ import java.util.List;
 @Tag(name = "Users", description = "Operations with users")
 @RestController
 @RequestMapping("/api/v1/users")
-@RequiredArgsConstructor
 public class UserController {
 
     private final IUserService userService;
+
+    public UserController(IUserService userService) {
+        this.userService = userService;
+    }
 
     @Operation(summary = "Find user by ID", description = "Returns user by given ID if exists.")
     @ApiResponse(responseCode = "200", description = "Successfully found user")
@@ -52,7 +55,7 @@ public class UserController {
     @ApiResponse(responseCode = "200", description = "User successfully updated")
     @ApiResponse(responseCode = "404", description = "User not found")
     @PutMapping("/{id}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @Valid @RequestBody UserDTO userDTO) {
         return ResponseEntity.ok(userService.updateUser(id, userDTO));
     }
 

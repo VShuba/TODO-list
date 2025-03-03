@@ -2,7 +2,7 @@ package shpp.shuba.todo_list.controllers.auth;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,21 +22,24 @@ import shpp.shuba.todo_list.service.auth.IAuthService;
 @Tag(name = "Authentication", description = "User authentication and registration")
 @RestController
 @RequestMapping("/api/v1/auth")
-@RequiredArgsConstructor
 public class AuthController {
 
     private final IAuthService authService;
 
+    public AuthController(IAuthService authService) {
+        this.authService = authService;
+    }
+
     @Operation(summary = "Register new user", description = "Registers a new user and returns access token")
     @PostMapping("/register")
-    public ResponseEntity<AuthResponseDTO> register(@RequestBody RegisterDTO registerDTO) {
+    public ResponseEntity<AuthResponseDTO> register(@Valid @RequestBody RegisterDTO registerDTO) {
         AuthResponseDTO response = authService.register(registerDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @Operation(summary = "Login user", description = "Authenticates user and returns access token")
     @PostMapping("/login")
-    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody LoginDTO loginDTO) {
         AuthResponseDTO response = authService.login(loginDTO);
         return ResponseEntity.ok(response);
     }

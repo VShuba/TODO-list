@@ -4,19 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import shpp.shuba.todo_list.dto.RegisterDTO;
 import shpp.shuba.todo_list.dto.UserDTO;
+import shpp.shuba.todo_list.exceptions.UserNotFoundException;
 import shpp.shuba.todo_list.models.MyUser;
-import shpp.shuba.todo_list.models.Role;
-import shpp.shuba.todo_list.projections.UserProjection;
-import shpp.shuba.todo_list.repository.RoleRepository;
 import shpp.shuba.todo_list.repository.UserRepository;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 
@@ -32,31 +27,13 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class UserService implements IUserService {
 
-    public static final String USER_NOT_FOUND = "User not found";
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
-    private final PasswordEncoder encoder;
-
-    @Override
-    public UserDTO registerUser(RegisterDTO registerDTO) {
-        Set<Role> roles = roleRepository.findByNameIn(registerDTO.getRoles());
-
-        MyUser user = MyUser.builder()
-                .username(registerDTO.getUsername())
-                .email(registerDTO.getEmail())
-                .password(encoder.encode(registerDTO.getPassword()))
-                .roles(roles)
-                .build();
-
-        MyUser savedUser = userRepository.save(user);
-        return userToDto(savedUser);
-    }
 
     @Override
     public UserDTO getUserById(Long id) {
         return userRepository.findById(id)
                 .map(this::userToDto)
-                .orElseThrow(() -> new RuntimeException(USER_NOT_FOUND));
+                .orElseThrow(UserNotFoundException::new);
     }
 
     @Override
@@ -72,21 +49,40 @@ public class UserService implements IUserService {
     @Override
     public UserDTO updateUser(Long id, UserDTO userDTO) {
         MyUser user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException(USER_NOT_FOUND));
+                .orElseThrow(UserNotFoundException::new);
 
-        user.setUsername(userDTO.username());
-        user.setEmail(userDTO.email());
-        user.setRoles(userDTO.roles());
+        Optional.ofNullable(userDTO.username())
+                .ifPresentOrElse(
+                        username -> {
+                            if (!username.isEmpty())
+                                user.setUsername(username);
+                        },
+                        () -> user.setUsername(null)
+                );
 
-        MyUser updatedUser = userRepository.save(user);
-        return userToDto(updatedUser);
+
+        Optional.ofNullable(userDTO.email())
+                .ifPresentOrElse(
+                        email -> {
+                            if (!email.isEmpty())
+                                user.setEmail(email);
+                        },
+                        () -> user.setEmail(null)
+                );
+
+        Optional.ofNullable(userDTO.roles())
+                .ifPresentOrElse(
+                        roles -> {
+                            if (!roles.isEmpty()) user.setRoles(roles);
+                        },
+                        () -> user.setRoles(null)
+                );
+
+        return userToDto(userRepository.save(user));
     }
 
     @Override
     public void deleteUser(Long id) {
-        if (!userRepository.existsById(id)) {
-            throw new RuntimeException(USER_NOT_FOUND);
-        }
         userRepository.deleteById(id);
     }
 

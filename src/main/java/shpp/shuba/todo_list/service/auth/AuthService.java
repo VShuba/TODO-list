@@ -9,6 +9,7 @@ import shpp.shuba.todo_list.config.JwtProvider;
 import shpp.shuba.todo_list.dto.AuthResponseDTO;
 import shpp.shuba.todo_list.dto.LoginDTO;
 import shpp.shuba.todo_list.dto.RegisterDTO;
+import shpp.shuba.todo_list.exceptions.UserNotFoundException;
 import shpp.shuba.todo_list.models.MyUser;
 import shpp.shuba.todo_list.models.Role;
 import shpp.shuba.todo_list.repository.RoleRepository;
@@ -61,7 +62,7 @@ public class AuthService implements IAuthService {
         );
 
         MyUser user = userRepository.findByUsername(loginDTO.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(UserNotFoundException::new);
 
         String token = jwtProvider.generateToken(user.getUsername());
 

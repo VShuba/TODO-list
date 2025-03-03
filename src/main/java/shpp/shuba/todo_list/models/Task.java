@@ -19,12 +19,14 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String title;
+
     private String description;
 
     private LocalDate dueDate;
 
     @Enumerated(EnumType.STRING)
-    private TaskStatus status = TaskStatus.PLANNED;
+    private TaskStatus status;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

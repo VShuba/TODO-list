@@ -6,5 +6,6 @@ import shpp.shuba.todo_list.dto.RegisterDTO;
 
 public interface IAuthService {
     AuthResponseDTO register(RegisterDTO registerDTO);
+
     AuthResponseDTO login(LoginDTO loginDTO);
 }

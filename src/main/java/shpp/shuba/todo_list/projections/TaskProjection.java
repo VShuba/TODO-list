@@ -7,3 +7,4 @@ public interface TaskProjection {
     String getDescription();
     TaskStatus getStatus();
 }
+ // todo НЕ ЮЗАЮ

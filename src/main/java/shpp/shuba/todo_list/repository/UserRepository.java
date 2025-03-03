@@ -8,7 +8,6 @@ import shpp.shuba.todo_list.models.MyUser;
 
 import java.util.Optional;
 
-
 public interface UserRepository extends JpaRepository<MyUser, Long> {
     Optional<MyUser> findByUsername(String username);
     Page<UserDTO> findAllBy(Pageable pageable);
