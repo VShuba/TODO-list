@@ -57,7 +57,7 @@ public class TaskService implements ITaskService {
     }
 
     @Override
-    public TaskDTO updateTaskStatus(Long taskId, TaskStatus newStatus) {
+    public TaskDTO updateTaskStatus(Long taskId, TaskStatus newStatus) { // 1 -> 1 -> status ?
 
         Task task = taskRepository.findById(taskId).orElseThrow(TaskNotFoundException::new);
 
@@ -69,6 +69,7 @@ public class TaskService implements ITaskService {
 //        task.setStatus(currentStatus.isAllowedStatus(newStatus) ? newStatus : task.getStatus());
 
         task.setStatus(newStatus);
+        taskRepository.save(task);
 
         return toTaskDto(task);
     }

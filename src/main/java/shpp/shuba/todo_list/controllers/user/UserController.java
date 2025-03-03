@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import shpp.shuba.todo_list.dto.ResponseUserDTO;
 import shpp.shuba.todo_list.dto.UserDTO;
 import shpp.shuba.todo_list.service.user.IUserService;
 
@@ -34,7 +35,7 @@ public class UserController {
     @ApiResponse(responseCode = "200", description = "Successfully found user")
     @ApiResponse(responseCode = "404", description = "User not found")
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
+    public ResponseEntity<ResponseUserDTO> getUserById(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getUserById(id));
     }
 
@@ -42,7 +43,7 @@ public class UserController {
     @ApiResponse(responseCode = "200", description = "Successfully retrieved list of users")
     @ApiResponse(responseCode = "404", description = "No users found")
     @GetMapping
-    public ResponseEntity<List<UserDTO>> getAllUsers(
+    public ResponseEntity<List<ResponseUserDTO>> getAllUsers(
             @Parameter(description = "Page number starts from 0", example = "0")
             @RequestParam(defaultValue = "0") int page,
 
@@ -55,7 +56,7 @@ public class UserController {
     @ApiResponse(responseCode = "200", description = "User successfully updated")
     @ApiResponse(responseCode = "404", description = "User not found")
     @PutMapping("/{id}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @Valid @RequestBody UserDTO userDTO) {
+    public ResponseEntity<ResponseUserDTO> updateUser(@PathVariable Long id, @Valid @RequestBody UserDTO userDTO) {
         return ResponseEntity.ok(userService.updateUser(id, userDTO));
     }
 

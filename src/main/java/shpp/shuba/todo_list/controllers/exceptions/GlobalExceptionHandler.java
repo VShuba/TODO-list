@@ -7,6 +7,10 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import shpp.shuba.todo_list.exceptions.TaskNotFoundException;
+import shpp.shuba.todo_list.exceptions.ThereIsNoRoleInDB;
+import shpp.shuba.todo_list.exceptions.UserNotFoundException;
+import shpp.shuba.todo_list.exceptions.WrongStatusException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -33,4 +37,29 @@ public class GlobalExceptionHandler {
                         + e.getMessage()
         );
     }
+
+
+    // --------------------- My ex
+
+    @ExceptionHandler(ThereIsNoRoleInDB.class)
+    public ProblemDetail handleRoleEx(ThereIsNoRoleInDB e) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Invalid Input: " + e.getMessage());
+    }
+
+    @ExceptionHandler(TaskNotFoundException.class)
+    public ProblemDetail handleRoleEx(TaskNotFoundException e) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Invalid Input: " + e.getMessage());
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ProblemDetail handleRoleEx(UserNotFoundException e) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Invalid Input: " + e.getMessage());
+    }
+
+    @ExceptionHandler(WrongStatusException.class)
+    public ProblemDetail handleRoleEx(WrongStatusException e) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Invalid Input: " + e.getMessage());
+    }
+
+
 }

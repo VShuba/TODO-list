@@ -9,6 +9,7 @@ import shpp.shuba.todo_list.config.JwtProvider;
 import shpp.shuba.todo_list.dto.AuthResponseDTO;
 import shpp.shuba.todo_list.dto.LoginDTO;
 import shpp.shuba.todo_list.dto.RegisterDTO;
+import shpp.shuba.todo_list.exceptions.ThereIsNoRoleInDB;
 import shpp.shuba.todo_list.exceptions.UserNotFoundException;
 import shpp.shuba.todo_list.models.MyUser;
 import shpp.shuba.todo_list.models.Role;
@@ -36,6 +37,9 @@ public class AuthService implements IAuthService {
     @Override
     public AuthResponseDTO register(RegisterDTO registerDTO) {
         Set<Role> roles = roleRepository.findByNameIn(registerDTO.getRoles());
+        if (roles.isEmpty()) {
+            throw new ThereIsNoRoleInDB();
+        }
         // admin - 1; user - 2
         MyUser user = MyUser.builder() // USERS - 3; SET<ROLES> - 1,2
                 .username(registerDTO.getUsername())

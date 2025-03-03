@@ -25,7 +25,7 @@ public class RegisterDTO {
     private String email;
 
     @NotEmpty
-    @Schema(example = "[\"USER\", \"MODERATOR\"]", description = "Roles assigned to the new user")
+    @Schema(example = "[\"ROLE_USER\", \"ROLE_MODERATOR\"]", description = "Roles assigned to the new user")
     private Set<RoleName> roles;
 }
 

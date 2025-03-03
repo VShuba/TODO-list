@@ -8,9 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import shpp.shuba.todo_list.dto.InitTaskDTO;
 import shpp.shuba.todo_list.dto.TaskDTO;
-import shpp.shuba.todo_list.models.Task;
 import shpp.shuba.todo_list.models.TaskStatus;
-import shpp.shuba.todo_list.service.task.TaskService;
+import shpp.shuba.todo_list.service.task.ITaskService;
 
 import java.util.List;
 
@@ -29,7 +28,7 @@ import java.util.List;
 @RequestMapping("/api/v1/tasks")
 @RequiredArgsConstructor
 public class TaskController {
-    private final TaskService taskService;
+    private final ITaskService taskService;
 
     @Operation(summary = "Create a new task", description = "Creates a new task for the given user")
     @PostMapping("/")
