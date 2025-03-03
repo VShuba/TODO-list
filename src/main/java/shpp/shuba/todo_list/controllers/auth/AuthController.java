@@ -30,17 +30,10 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @Operation(summary = "Register new user", description = "Registers a new user and returns access token")
+    @Operation(summary = "Register new user", description = "Registers a new user")
     @PostMapping("/register")
-    public ResponseEntity<AuthResponseDTO> register(@Valid @RequestBody RegisterDTO registerDTO) {
-        AuthResponseDTO response = authService.register(registerDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
-
-    @Operation(summary = "Login user", description = "Authenticates user and returns access token")
-    @PostMapping("/login")
-    public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody LoginDTO loginDTO) {
-        AuthResponseDTO response = authService.login(loginDTO);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<String> register(@Valid @RequestBody RegisterDTO registerDTO) {
+        authService.register(registerDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
     }
 }

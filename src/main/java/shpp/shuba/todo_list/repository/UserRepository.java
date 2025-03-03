@@ -10,7 +10,10 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<MyUser, Long> {
     Optional<MyUser> findByUsername(String username);
+
     Page<ResponseUserDTO> findAllBy(Pageable pageable);
+
+    boolean existsByUsername(String username);
 }
 // use projection
 // use Pageable

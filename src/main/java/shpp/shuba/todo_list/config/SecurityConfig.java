@@ -2,6 +2,7 @@ package shpp.shuba.todo_list.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,38 +29,37 @@ public class SecurityConfig {
     private String appV;
 
     @Bean
-    public OpenAPI customOpenAPI(){
+    public OpenAPI customOpenAPI() {
         return new OpenAPI().info(new Info()
                 .title("TODO API")
                 .version(appV)
                 .description("API Documentation to manage users and tasks"));
     }
 
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)) // це для h2 db
-                .authorizeHttpRequests(authorize -> {
-                    authorize.requestMatchers("/swagger-ui/**").permitAll();
-                    authorize.requestMatchers("/v3/api-docs/**").permitAll();
-                    authorize.requestMatchers("/h2-console/**").permitAll();
-                    authorize.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
-                    authorize.anyRequest().permitAll();
-                }).httpBasic(Customizer.withDefaults());
-
-        http.exceptionHandling( exception -> exception
-                .authenticationEntryPoint(jwtAuthenticationEntryPoint()));
-
-       // http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/swagger-ui/**", "/h2-console/**", "/api/v1/auth/**").anonymous()
+                        .anyRequest().authenticated()
+                )
+                .httpBasic(Customizer.withDefaults()) // Basic Auth
+                .logout(logout -> logout
+                        .logoutUrl("/logout") // URL для выхода
+                        .logoutSuccessHandler(
+                                (request, response, authentication) ->
+                                response.setStatus(HttpServletResponse.SC_OK)
+                        )
+                        .invalidateHttpSession(true) // инвалидируем сессию
+                        .deleteCookies("JSESSIONID") // удаляем куки
+                );
 
         return http.build();
     }
 
-    @Bean
-    public JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint() {
-        return new JwtAuthenticationEntryPoint();
-    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
