@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.MessageSource;
 import shpp.shuba.todo_list.dto.ResponseTaskDTO;
 import shpp.shuba.todo_list.exceptions.TaskNotFoundException;
 import shpp.shuba.todo_list.exceptions.WrongStatusException;
@@ -27,6 +28,9 @@ class TaskServiceTest {
 
     @Mock
     private TaskRepository taskRepository;
+
+    @Mock
+    private MessageSource messageSource;
 
     @InjectMocks
     private TaskService taskService;
@@ -69,6 +73,7 @@ class TaskServiceTest {
 
         TaskStatus invalidStatus = TaskStatus.DONE;
         when(taskRepository.findById(1L)).thenReturn(Optional.of(task));
+        when(messageSource.getMessage(any(), any(), any())).thenReturn("Error message");
 
         assertThrows(WrongStatusException.class, () -> taskService.updateTaskStatus(1L, invalidStatus));
         verify(taskRepository, never()).save(any(Task.class));

@@ -1,10 +1,11 @@
 package shpp.shuba.todo_list.exceptions;
 
-public class TaskNotFoundException extends RuntimeException {
+import org.springframework.context.MessageSource;
 
-    private static final String TASK_NOT_FOUND = "TASK_NOT_FOUND";
+public class TaskNotFoundException extends BaseLocalizedException {
 
-    public TaskNotFoundException() {
-        super(TASK_NOT_FOUND);
+    public TaskNotFoundException(MessageSource messageSource) {
+        super(messageSource, "error.task.not.found");
     }
 }
+

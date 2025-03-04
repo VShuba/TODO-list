@@ -1,6 +1,7 @@
 package shpp.shuba.todo_list.service.task;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import shpp.shuba.todo_list.dto.RequestTaskDTO;
 import shpp.shuba.todo_list.dto.ResponseTaskDTO;
@@ -20,11 +21,12 @@ import java.util.List;
 public class TaskService implements ITaskService {
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
+    private final MessageSource messageSource;
 
     @Override
     public ResponseTaskDTO createTask(Long userId, RequestTaskDTO dto) {
         MyUser user = userRepository.findById(userId)
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(() -> new UserNotFoundException(messageSource));
 
         Task task = Task.builder()
                 .title(dto.title())
@@ -39,7 +41,7 @@ public class TaskService implements ITaskService {
 
     @Override
     public ResponseTaskDTO getTaskById(Long taskId) {
-        return toTaskDto(taskRepository.findById(taskId).orElseThrow(TaskNotFoundException::new));
+        return toTaskDto(taskRepository.findById(taskId).orElseThrow(() -> new TaskNotFoundException(messageSource)));
     }
 
     @Override
@@ -50,15 +52,11 @@ public class TaskService implements ITaskService {
     @Override
     public ResponseTaskDTO updateTaskStatus(Long taskId, TaskStatus newStatus) { // 1 -> 1 -> status ?
 
-        Task task = taskRepository.findById(taskId).orElseThrow(TaskNotFoundException::new);
+        Task task = taskRepository.findById(taskId).orElseThrow(() -> new TaskNotFoundException(messageSource));
 
         if (!task.getStatus().isAllowedStatus(newStatus)) {
-            throw new WrongStatusException(newStatus);
+            throw new WrongStatusException(messageSource);
         }
-
-// інший варіант просто не оновлювати статус, залишити той шо був
-//        TaskStatus currentStatus = task.getStatus();
-//        task.setStatus(currentStatus.isAllowedStatus(newStatus) ? newStatus : task.getStatus());
 
         task.setStatus(newStatus);
         taskRepository.save(task);

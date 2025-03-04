@@ -1,10 +1,11 @@
 package shpp.shuba.todo_list.exceptions;
 
-public class UserNotFoundException extends RuntimeException {
+import org.springframework.context.MessageSource;
 
-    private static final String USER_NOT_FOUND = "USER_NOT_FOUND";
+public class UserNotFoundException extends BaseLocalizedException {
 
-    public UserNotFoundException() {
-        super(USER_NOT_FOUND);
+    public UserNotFoundException(MessageSource messageSource) {
+        super(messageSource, "error.user.not.found");
     }
 }
+

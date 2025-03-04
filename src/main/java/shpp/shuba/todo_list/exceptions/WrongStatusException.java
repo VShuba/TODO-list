@@ -1,12 +1,10 @@
 package shpp.shuba.todo_list.exceptions;
 
-import shpp.shuba.todo_list.models.TaskStatus;
+import org.springframework.context.MessageSource;
 
-public class WrongStatusException extends RuntimeException {
+public class WrongStatusException extends BaseLocalizedException {
 
-    private static final String WRONG_STATUS_MESSAGE = "You can't go this status: ";
-
-    public WrongStatusException(TaskStatus status) {
-        super(WRONG_STATUS_MESSAGE + status);
+    public WrongStatusException(MessageSource messageSource) {
+        super(messageSource, "error.wrong.status");
     }
 }

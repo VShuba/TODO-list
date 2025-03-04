@@ -10,7 +10,7 @@ import java.util.Arrays;
 @Aspect
 @Component
 @Slf4j
-public class LoggingAspect {
+public class LoggingAspect { // aop
 
     @Pointcut("@within(org.springframework.stereotype.Controller)")
     public void isController() {
@@ -23,10 +23,10 @@ public class LoggingAspect {
     public void isService() {
     }
 
-    // логую всі методи перед викликом
+    // логую всі методи перед викликом // @Around
     @Before("isController() || isService() || isRestController()")
     public void logBefore(JoinPoint joinPoint) {
-        log.info("Call method: {}  - with args: {}", joinPoint.getSignature().toShortString(), Arrays.toString(joinPoint.getArgs()));
+        log.info("Trying to call method: {}  - with args: {}", joinPoint.getSignature().toShortString(), Arrays.toString(joinPoint.getArgs()));
     }
 
     // логую успішне виконання

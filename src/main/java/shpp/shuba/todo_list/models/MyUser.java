@@ -14,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Table(name = "users")
-public class MyUser {
+public class MyUser { // todo search ddl schema and data
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

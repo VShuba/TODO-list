@@ -33,4 +33,5 @@ public enum TaskStatus {
         Set<TaskStatus> statuses = allowedTransitions.get(this);
         return statuses != null && statuses.contains(status);
     }
+    // todo test this one!!!
 }

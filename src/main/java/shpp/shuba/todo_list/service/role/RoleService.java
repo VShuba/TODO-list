@@ -5,6 +5,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import shpp.shuba.todo_list.dto.ResponseUserDTO;
 import shpp.shuba.todo_list.exceptions.RoleNotAssignedToUserException;
+import shpp.shuba.todo_list.exceptions.TaskNotFoundException;
 import shpp.shuba.todo_list.exceptions.ThereIsNoRoleInDB;
 import shpp.shuba.todo_list.exceptions.UserNotFoundException;
 import shpp.shuba.todo_list.models.MyUser;
@@ -41,12 +42,12 @@ public class RoleService implements IRoleService {
     public ResponseUserDTO addUserRoleById(Long id, RoleName roleName) {
         userService.throwIfSuperAdmin(id);
 
-        MyUser user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        MyUser user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(messageSource));
 
         Set<Role> userRoles = new HashSet<>(user.getRoles());
 
         Role role = roleRepository.findByName(roleName)
-                .orElseThrow(ThereIsNoRoleInDB::new);
+                .orElseThrow(() -> new ThereIsNoRoleInDB(messageSource));
 
         userRoles.add(role);
         user.setRoles(userRoles);
@@ -59,11 +60,11 @@ public class RoleService implements IRoleService {
 
         userService.throwIfSuperAdmin(id);
 
-        MyUser user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        MyUser user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(messageSource));
         Set<Role> userRoles = new HashSet<>(user.getRoles());
 
         Role roleToRemove = roleRepository.findByName(roleName)
-                .orElseThrow(ThereIsNoRoleInDB::new);
+                .orElseThrow(() -> new ThereIsNoRoleInDB(messageSource));
 
         if (!userRoles.contains(roleToRemove)) {
             throw new RoleNotAssignedToUserException(messageSource);

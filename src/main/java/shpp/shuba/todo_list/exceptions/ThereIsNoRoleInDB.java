@@ -1,10 +1,10 @@
 package shpp.shuba.todo_list.exceptions;
 
-public class ThereIsNoRoleInDB extends RuntimeException{
+import org.springframework.context.MessageSource;
 
-    public static final String THERE_IS_NO_ROLES_IN_DB_YET = "There is no roles in DB yet.";
+public class ThereIsNoRoleInDB extends BaseLocalizedException {
 
-    public ThereIsNoRoleInDB() {
-        super(THERE_IS_NO_ROLES_IN_DB_YET);
+    public ThereIsNoRoleInDB(MessageSource messageSource) {
+        super(messageSource, "error.role.not.found");
     }
 }

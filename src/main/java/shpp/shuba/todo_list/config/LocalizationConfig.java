@@ -15,7 +15,7 @@ public class LocalizationConfig {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("classpath:messages");
         messageSource.setDefaultEncoding("UTF-8");
-        messageSource.setDefaultLocale(Locale.ENGLISH); // <-- Добавляем fallback
+        messageSource.setDefaultLocale(Locale.ENGLISH); // <- додаю fallback
         return messageSource;
 
     }

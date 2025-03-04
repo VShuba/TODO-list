@@ -27,12 +27,13 @@ public class UserService implements IUserService {
     private final UserRepository userRepository;
     private final MessageSource messageSource;
 
+
     @Override
     public ResponseUserDTO getUserById(Long id) {
         throwIfSuperAdmin(id);
         return userRepository.findById(id)
                 .map(this::userToDto)
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(() -> new UserNotFoundException(messageSource));
     }
 
     @Override
@@ -50,7 +51,7 @@ public class UserService implements IUserService {
         throwIfSuperAdmin(id);
 
         MyUser user = userRepository.findById(id)
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(() -> new UserNotFoundException(messageSource));
 
         Optional.ofNullable(requestUserDTO.username())
                 .ifPresentOrElse(

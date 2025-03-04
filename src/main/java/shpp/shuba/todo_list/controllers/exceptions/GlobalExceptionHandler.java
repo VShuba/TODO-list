@@ -44,39 +44,9 @@ public class GlobalExceptionHandler {
 
     // --------------------- My ex
 
-
     @ExceptionHandler(BaseLocalizedException.class)
     public ProblemDetail handleLocalizedEx(BaseLocalizedException e) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
-    @ExceptionHandler(ThereIsNoRoleInDB.class)
-    public ProblemDetail handleThereIsNoRoleInDB(ThereIsNoRoleInDB e) {
-        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
-    }
-
-    @ExceptionHandler(TaskNotFoundException.class)
-    public ProblemDetail handleTaskNotFoundException(TaskNotFoundException e) {
-        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
-    }
-
-    @ExceptionHandler(UserNotFoundException.class)
-    public ProblemDetail handleUserNotFoundException(UserNotFoundException e) {
-        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
-    }
-
-    @ExceptionHandler(WrongStatusException.class)
-    public ProblemDetail handleWrongStatusException(WrongStatusException e) {
-        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
-    }
-
-//    @ExceptionHandler(RoleNotAssignedToUserException.class)
-//    public ProblemDetail handleRoleNotAssignedToUserException(RoleNotAssignedToUserException e) {
-//        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
-//    }
-
-//    @ExceptionHandler(TryingToTouchSuperAdmin.class)
-//    public ProblemDetail handleTryingToTouchSuperAdmin(TryingToTouchSuperAdmin e) {
-//        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
-//    }
 }

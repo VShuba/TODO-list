@@ -13,7 +13,7 @@ import lombok.*;
 @NoArgsConstructor
 @Table(name = "roles")
 @Builder
-public class Role {
+public class Role { // 3
     @Hidden
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,6 +1,5 @@
 package shpp.shuba.todo_list.exceptions;
 
-
 import org.springframework.context.MessageSource;
 
 public class RoleNotAssignedToUserException extends BaseLocalizedException {
