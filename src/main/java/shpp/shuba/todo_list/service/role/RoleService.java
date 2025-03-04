@@ -18,13 +18,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * RoleService
- * Отримання ролей
- * Додавання ролей (вже існуючих в enum, але їх нема в базі.)
- * Присвоєння ролей користувачу
- * Видалення ролі у користувача
- */
 @Service
 @RequiredArgsConstructor
 public class RoleService implements IRoleService {
@@ -81,7 +74,3 @@ public class RoleService implements IRoleService {
         return userService.userToDto(userRepository.save(user));
     }
 }
-
-//        if (roleToRemove.getName().equals(RoleName.ROLE_ADMIN) && user.getId().equals(1L)) {
-//            throw new TryingToTouchSuperAdmin();
-//        }

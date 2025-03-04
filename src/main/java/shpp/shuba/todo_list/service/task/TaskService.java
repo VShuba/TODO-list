@@ -15,15 +15,6 @@ import shpp.shuba.todo_list.repository.UserRepository;
 
 import java.util.List;
 
-/**
- * TaskService
- * Створення задачі
- * Отримання задачі за ID
- * Отримання списку задач користувача
- * Оновлення задачі (опис, дедлайн, статус тощо)
- * Зміна статусу задачі (з дотриманням правил переходу між станами)
- * Видалення задачі
- */
 @Service
 @RequiredArgsConstructor
 public class TaskService implements ITaskService {

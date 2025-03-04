@@ -19,7 +19,3 @@ public record RequestTaskDTO(
         @Schema(example = "2025-05-05", description = "Planned date for the task")
         LocalDate date
 ) {}
-
-// нєма айди
-// нєма юзера
-// нєма статуса бо ця дто для першого створення

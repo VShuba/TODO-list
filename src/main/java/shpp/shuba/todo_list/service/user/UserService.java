@@ -18,15 +18,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-
-/**
- * UserService
- * Реєстрація користувача
- * Отримання користувача за ID
- * Отримання списку всіх користувачів
- * Оновлення профілю користувача (за необхідності)
- * Видалення користувача (якщо потрібно)
- */
 @Service
 @RequiredArgsConstructor
 public class UserService implements IUserService {
