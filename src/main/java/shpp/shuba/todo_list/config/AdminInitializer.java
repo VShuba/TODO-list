@@ -1,6 +1,7 @@
 package shpp.shuba.todo_list.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,12 @@ public class AdminInitializer implements CommandLineRunner {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Value("${admin.name}")
+    public String adminName;
+
+    @Value("${admin.password}")
+    public String password;
+
     @Override
     public void run(String... args) {
 
@@ -28,11 +35,11 @@ public class AdminInitializer implements CommandLineRunner {
                         .name(RoleName.ROLE_ADMIN)
                         .build()));
 
-        if (!userRepository.existsByUsername("admin")) {
+        if (!userRepository.existsByUsername(adminName)) {
             MyUser admin = MyUser.builder()
-                    .username("admin")
+                    .username(adminName)
                     .email("admin@example.com")
-                    .password(passwordEncoder.encode("admin"))
+                    .password(passwordEncoder.encode(password))
                     .roles(Set.of(adminRole))
                     .build();
 

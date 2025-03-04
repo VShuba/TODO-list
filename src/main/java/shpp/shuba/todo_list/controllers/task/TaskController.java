@@ -6,8 +6,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import shpp.shuba.todo_list.dto.InitTaskDTO;
-import shpp.shuba.todo_list.dto.TaskDTO;
+import shpp.shuba.todo_list.dto.RequestTaskDTO;
+import shpp.shuba.todo_list.dto.ResponseTaskDTO;
 import shpp.shuba.todo_list.models.TaskStatus;
 import shpp.shuba.todo_list.service.task.ITaskService;
 
@@ -15,7 +15,6 @@ import java.util.List;
 
 /**
  * TaskController (/tasks)
- *
  * POST / – створити задачу
  * GET /{id} – отримати задачу
  * GET / – отримати список задач
@@ -32,25 +31,25 @@ public class TaskController {
 
     @Operation(summary = "Create a new task", description = "Creates a new task for the given user")
     @PostMapping("/")
-    public ResponseEntity<TaskDTO> createTask(@RequestParam Long userId, @Valid @RequestBody InitTaskDTO taskDTO) {
+    public ResponseEntity<ResponseTaskDTO> createTask(@RequestParam Long userId, @Valid @RequestBody RequestTaskDTO taskDTO) {
         return ResponseEntity.ok(taskService.createTask(userId, taskDTO));
     }
 
     @Operation(summary = "Get task by ID", description = "Fetches a specific task by its ID")
     @GetMapping("/{id}")
-    public ResponseEntity<TaskDTO> getTask(@PathVariable Long id) {
+    public ResponseEntity<ResponseTaskDTO> getTask(@PathVariable Long id) {
         return ResponseEntity.ok(taskService.getTaskById(id));
     }
 
     @Operation(summary = "Get all tasks for a user", description = "Retrieves all tasks associated with a given user")
     @GetMapping("/")
-    public ResponseEntity<List<TaskDTO>> getTasksByUser(@RequestParam Long userId) {
+    public ResponseEntity<List<ResponseTaskDTO>> getTasksByUser(@RequestParam Long userId) {
         return ResponseEntity.ok(taskService.getTasksByUser(userId));
     }
 
     @Operation(summary = "Update task status", description = "Changes task status with validation")
     @PatchMapping("/{id}/status")
-    public ResponseEntity<TaskDTO> updateTaskStatus(@PathVariable Long id, @Valid @RequestParam TaskStatus newStatus) {
+    public ResponseEntity<ResponseTaskDTO> updateTaskStatus(@PathVariable Long id, @Valid @RequestParam TaskStatus newStatus) {
         return ResponseEntity.ok(taskService.updateTaskStatus(id, newStatus));
     }
 

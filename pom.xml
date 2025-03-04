@@ -10,7 +10,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>shpp.shuba</groupId>
+    <groupId>shpp.shuba</groupId> <!-- ua.shpp -->
     <artifactId>TODO_list</artifactId>
     <version>0.0.1</version>
     <name>TODO_list</name>

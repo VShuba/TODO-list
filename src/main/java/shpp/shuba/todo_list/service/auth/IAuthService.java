@@ -1,7 +1,7 @@
 package shpp.shuba.todo_list.service.auth;
 
-import shpp.shuba.todo_list.dto.RegisterDTO;
+import shpp.shuba.todo_list.dto.RegisterUserDTO;
 
 public interface IAuthService {
-    void register(RegisterDTO registerDTO);
+    void register(RegisterUserDTO registerUserDTO);
 }

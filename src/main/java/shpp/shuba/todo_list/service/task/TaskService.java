@@ -2,8 +2,8 @@ package shpp.shuba.todo_list.service.task;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import shpp.shuba.todo_list.dto.InitTaskDTO;
-import shpp.shuba.todo_list.dto.TaskDTO;
+import shpp.shuba.todo_list.dto.RequestTaskDTO;
+import shpp.shuba.todo_list.dto.ResponseTaskDTO;
 import shpp.shuba.todo_list.exceptions.TaskNotFoundException;
 import shpp.shuba.todo_list.exceptions.UserNotFoundException;
 import shpp.shuba.todo_list.exceptions.WrongStatusException;
@@ -31,7 +31,7 @@ public class TaskService implements ITaskService {
     private final UserRepository userRepository;
 
     @Override
-    public TaskDTO createTask(Long userId, InitTaskDTO dto) {
+    public ResponseTaskDTO createTask(Long userId, RequestTaskDTO dto) {
         MyUser user = userRepository.findById(userId)
                 .orElseThrow(UserNotFoundException::new);
 
@@ -47,17 +47,17 @@ public class TaskService implements ITaskService {
     }
 
     @Override
-    public TaskDTO getTaskById(Long taskId) {
+    public ResponseTaskDTO getTaskById(Long taskId) {
         return toTaskDto(taskRepository.findById(taskId).orElseThrow(TaskNotFoundException::new));
     }
 
     @Override
-    public List<TaskDTO> getTasksByUser(Long userId) {
+    public List<ResponseTaskDTO> getTasksByUser(Long userId) {
         return toDTOList(taskRepository.findByUserId(userId));
     }
 
     @Override
-    public TaskDTO updateTaskStatus(Long taskId, TaskStatus newStatus) { // 1 -> 1 -> status ?
+    public ResponseTaskDTO updateTaskStatus(Long taskId, TaskStatus newStatus) { // 1 -> 1 -> status ?
 
         Task task = taskRepository.findById(taskId).orElseThrow(TaskNotFoundException::new);
 
@@ -65,6 +65,7 @@ public class TaskService implements ITaskService {
             throw new WrongStatusException(newStatus);
         }
 
+// інший варіант просто не оновлювати статус, залишити той шо був
 //        TaskStatus currentStatus = task.getStatus();
 //        task.setStatus(currentStatus.isAllowedStatus(newStatus) ? newStatus : task.getStatus());
 
@@ -79,11 +80,11 @@ public class TaskService implements ITaskService {
         taskRepository.deleteById(taskId);
     }
 
-    private List<TaskDTO> toDTOList(List<Task> tasks) {
+    private List<ResponseTaskDTO> toDTOList(List<Task> tasks) {
         return tasks.stream().map(this::toTaskDto).toList();
     }
 
-    private TaskDTO toTaskDto(Task task) {
-        return new TaskDTO(task.getTitle(), task.getDescription(), task.getStatus(), task.getDueDate());
+    private ResponseTaskDTO toTaskDto(Task task) {
+        return new ResponseTaskDTO(task.getTitle(), task.getDescription(), task.getStatus(), task.getDueDate());
     }
 }

@@ -7,10 +7,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import shpp.shuba.todo_list.exceptions.TaskNotFoundException;
-import shpp.shuba.todo_list.exceptions.ThereIsNoRoleInDB;
-import shpp.shuba.todo_list.exceptions.UserNotFoundException;
-import shpp.shuba.todo_list.exceptions.WrongStatusException;
+import shpp.shuba.todo_list.exceptions.*;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -38,28 +35,35 @@ public class GlobalExceptionHandler {
         );
     }
 
-
     // --------------------- My ex
 
     @ExceptionHandler(ThereIsNoRoleInDB.class)
     public ProblemDetail handleRoleEx(ThereIsNoRoleInDB e) {
-        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Invalid Input: " + e.getMessage());
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
     @ExceptionHandler(TaskNotFoundException.class)
     public ProblemDetail handleRoleEx(TaskNotFoundException e) {
-        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Invalid Input: " + e.getMessage());
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
     @ExceptionHandler(UserNotFoundException.class)
     public ProblemDetail handleRoleEx(UserNotFoundException e) {
-        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Invalid Input: " + e.getMessage());
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
     @ExceptionHandler(WrongStatusException.class)
     public ProblemDetail handleRoleEx(WrongStatusException e) {
-        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Invalid Input: " + e.getMessage());
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
+    @ExceptionHandler(RoleNotAssignedToUserException.class)
+    public ProblemDetail handleRoleEx(RoleNotAssignedToUserException e) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+    }
 
+    @ExceptionHandler(TryingToTouchSuperAdmin.class)
+    public ProblemDetail handleRoleEx(TryingToTouchSuperAdmin e) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+    }
 }

@@ -8,6 +8,10 @@ public class TodoListApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(TodoListApplication.class, args);
+        // aop к контроллерам + логирование + i18n
+        // понатыкать эндпоинты для секурити + метод update любой может изменить имя ЛЮБОГО айди, это не оч
+        // при создания пользователя он все равно может дать себе роль админа, такое себе
+        //
     }
 
 }

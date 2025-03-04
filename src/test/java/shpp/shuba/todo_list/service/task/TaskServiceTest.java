@@ -7,14 +7,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import shpp.shuba.todo_list.dto.TaskDTO;
+import shpp.shuba.todo_list.dto.ResponseTaskDTO;
 import shpp.shuba.todo_list.exceptions.TaskNotFoundException;
 import shpp.shuba.todo_list.exceptions.WrongStatusException;
 import shpp.shuba.todo_list.models.MyUser;
 import shpp.shuba.todo_list.models.Task;
 import shpp.shuba.todo_list.models.TaskStatus;
 import shpp.shuba.todo_list.repository.TaskRepository;
-import shpp.shuba.todo_list.service.task.TaskService;
 
 
 import java.time.LocalDate;
@@ -57,7 +56,7 @@ class TaskServiceTest {
         when(taskRepository.findById(1L)).thenReturn(Optional.of(task));
         when(taskRepository.save(any(Task.class))).thenReturn(task);
 
-        TaskDTO updatedTask = taskService.updateTaskStatus(1L, newStatus);
+        ResponseTaskDTO updatedTask = taskService.updateTaskStatus(1L, newStatus);
 
         assertNotNull(updatedTask);
         assertEquals(newStatus, updatedTask.status());

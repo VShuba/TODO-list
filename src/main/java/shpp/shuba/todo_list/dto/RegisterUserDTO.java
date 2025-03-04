@@ -3,14 +3,11 @@ package shpp.shuba.todo_list.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import shpp.shuba.todo_list.models.RoleName;
-import java.util.Set;
 
 @Data
-public class RegisterDTO {
+public class RegisterUserDTO {
     @NotBlank
     @Size(min = 3, max = 50)
     @Schema(example = "Mike", description = "User's chosen username")
@@ -23,10 +20,6 @@ public class RegisterDTO {
     @NotBlank @Email @Size(max = 100)
     @Schema(example = "mike@example.com", description = "User's email for registration")
     private String email;
-
-    @NotEmpty
-    @Schema(example = "[\"ROLE_USER\", \"ROLE_MODERATOR\"]", description = "Roles assigned to the new user")
-    private Set<RoleName> roles;
 }
 
 // ADMIN, USER, VLAD

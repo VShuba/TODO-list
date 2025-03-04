@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size;
 import shpp.shuba.todo_list.models.TaskStatus;
 import java.time.LocalDate;
 
-public record TaskDTO(
+public record ResponseTaskDTO(
         @NotBlank @Size(min = 3, max = 100)
         @Schema(example = "Complete project report", description = "Title of the task")
         String title,
@@ -22,7 +22,7 @@ public record TaskDTO(
         TaskStatus status,
 
         @FutureOrPresent
-        @Schema(example = "2025-03-03", description = "Due date for the task (must be today or in the future)")
+        @Schema(example = "2025-05-05", description = "Due date for the task (must be today or in the future)")
         LocalDate date
 ) {}
 

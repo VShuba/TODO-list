@@ -6,7 +6,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import shpp.shuba.todo_list.dto.ResponseUserDTO;
-import shpp.shuba.todo_list.dto.UserDTO;
+import shpp.shuba.todo_list.dto.RequestUserDTO;
+import shpp.shuba.todo_list.exceptions.TryingToTouchSuperAdmin;
 import shpp.shuba.todo_list.exceptions.UserNotFoundException;
 import shpp.shuba.todo_list.models.MyUser;
 import shpp.shuba.todo_list.models.Role;
@@ -30,10 +31,12 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class UserService implements IUserService {
 
+    public static final int ADMIN_ID = 1;
     private final UserRepository userRepository;
 
     @Override
     public ResponseUserDTO getUserById(Long id) {
+        throwIfSuperAdmin(id);
         return userRepository.findById(id)
                 .map(this::userToDto)
                 .orElseThrow(UserNotFoundException::new);
@@ -43,18 +46,20 @@ public class UserService implements IUserService {
     public List<ResponseUserDTO> getAllUsers(int page, int size) {
         Pageable pageRequest = PageRequest.of(page, size);
 
-        Page<ResponseUserDTO> all = userRepository.findAllBy(pageRequest); // getAll
-        Stream<ResponseUserDTO> stream = all.get();
+        Page<MyUser> all = userRepository.findAllBy(pageRequest); // getAll
+        Stream<MyUser> stream = all.get();
 
-        return stream.toList();
+        return toDTOList(stream.toList());
     }
 
     @Override
-    public ResponseUserDTO updateUser(Long id, UserDTO userDTO) {
+    public ResponseUserDTO updateUser(Long id, RequestUserDTO requestUserDTO) {
+        throwIfSuperAdmin(id);
+
         MyUser user = userRepository.findById(id)
                 .orElseThrow(UserNotFoundException::new);
 
-        Optional.ofNullable(userDTO.username())
+        Optional.ofNullable(requestUserDTO.username())
                 .ifPresentOrElse(
                         username -> {
                             if (!username.isEmpty())
@@ -64,7 +69,7 @@ public class UserService implements IUserService {
                 );
 
 
-        Optional.ofNullable(userDTO.email())
+        Optional.ofNullable(requestUserDTO.email())
                 .ifPresentOrElse(
                         email -> {
                             if (!email.isEmpty())
@@ -78,15 +83,26 @@ public class UserService implements IUserService {
 
     @Override
     public void deleteUser(Long id) {
+        throwIfSuperAdmin(id);
         userRepository.deleteById(id);
     }
 
-    private ResponseUserDTO userToDto(MyUser user) {
+    public void throwIfSuperAdmin(Long id) {
+        if (id == ADMIN_ID) {
+            throw new TryingToTouchSuperAdmin();
+        }
+    }
+
+    public ResponseUserDTO userToDto(MyUser user) {
         return new ResponseUserDTO(
                 user.getUsername(),
                 user.getEmail(),
                 user.getRoles().stream().map(Role::getName).collect(Collectors.toSet())
         );
+    }
+
+    private List<ResponseUserDTO> toDTOList(List<MyUser> users) {
+        return users.stream().map(this::userToDto).toList();
     }
 }
 

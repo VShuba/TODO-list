@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 
-public record InitTaskDTO(
+public record RequestTaskDTO(
         @NotBlank @Size(min = 3, max = 100)
         @Schema(example = "Buy groceries", description = "Title of the task to be created")
         String title,
@@ -16,7 +16,7 @@ public record InitTaskDTO(
         String description,
 
         @FutureOrPresent
-        @Schema(example = "2025-03-03", description = "Planned date for the task")
+        @Schema(example = "2025-05-05", description = "Planned date for the task")
         LocalDate date
 ) {}
 
