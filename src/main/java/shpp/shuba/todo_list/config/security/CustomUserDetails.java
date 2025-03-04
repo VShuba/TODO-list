@@ -1,4 +1,4 @@
-package shpp.shuba.todo_list.config;
+package shpp.shuba.todo_list.config.security;
 
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;

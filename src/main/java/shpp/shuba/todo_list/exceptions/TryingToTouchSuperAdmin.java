@@ -1,10 +1,10 @@
 package shpp.shuba.todo_list.exceptions;
 
-public class TryingToTouchSuperAdmin extends RuntimeException {
+import org.springframework.context.MessageSource;
 
-    private static final String YOU_CAN_NOT_DELETE_SUPER_ADMIN = "YOU CAN NOT TOUCH SUPER ADMIN =)";
+public class TryingToTouchSuperAdmin extends BaseLocalizedException {
 
-    public TryingToTouchSuperAdmin() {
-        super(YOU_CAN_NOT_DELETE_SUPER_ADMIN);
+    public TryingToTouchSuperAdmin(MessageSource messageSource) {
+        super(messageSource, "error.superadmin.access");
     }
 }

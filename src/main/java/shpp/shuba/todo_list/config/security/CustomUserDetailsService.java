@@ -1,4 +1,4 @@
-package shpp.shuba.todo_list.config;
+package shpp.shuba.todo_list.config.security;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

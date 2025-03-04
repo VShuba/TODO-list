@@ -57,40 +57,4 @@ public class RoleController {
     public ResponseEntity<ResponseUserDTO> removeRoleById(@PathVariable Long id, @PathVariable RoleName roleName) {
         return ResponseEntity.ok(roleService.removeUserRoleById(id, roleName));
     }
-
-
-//    @Operation(summary = "Add a role to a user", description = "Assigns a new role to the user")
-//    @PatchMapping("/users/{id}/roles/{roleName}")
-//    public ResponseEntity<ResponseUserDTO> addUserRole(
-//            @PathVariable Long id,
-//            @PathVariable RoleName roleName) {
-//        return ResponseEntity.ok(userService.addRoleToUser(id, roleName));
-//    }
-//
-//    @Operation(summary = "Remove a role from a user", description = "Removes a specific role from the user")
-//    @DeleteMapping("/users/{id}/roles/{roleName}")
-//    public ResponseEntity<ResponseUserDTO> removeUserRole(
-//            @PathVariable Long id,
-//            @PathVariable RoleName roleName) {
-//        return ResponseEntity.ok(userService.removeRoleFromUser(id, roleName));
-//    }
-
-    //    @Operation(summary = "Assign a role to a user", description = "Adds a role to a specific user by ID")
-//    @PostMapping("/users/{id}/roles/{roleName}")
-//    public ResponseEntity<ResponseUserDTO> assignRoleToUser(
-//            @PathVariable Long id,
-//            @PathVariable RoleName roleName) {
-//        return ResponseEntity.ok(userService.addRoleToUser(id, roleName));
-//    }
-//
-
-
-//    @Operation(summary = "Add new role to user", description = "Adds a new role without removing existing ones")
-//    @PatchMapping("/{id}/roles")
-//    public ResponseEntity<ResponseUserDTO> addUserRoleById(
-//            @PathVariable Long id,
-//            @RequestBody RoleName roleName) {
-//        return ResponseEntity.ok(userService.updateUserRoleById(id, roleName));
-//    }
-//    // DELETE?its Deleting prev // СДЕЛАТЬ 3 МЕТОДА: 1 ДЛЯ СОЗДАНИЯ РОЛИ к юзеру -> 2 ДЛЯ ДОБАВЛЕНИЯ РОЛИ К УЖЕ ИМЕЮЩИМСЯ -> 3 ДЛЯ УДАЛЕНИЕ РОЛИ
 }

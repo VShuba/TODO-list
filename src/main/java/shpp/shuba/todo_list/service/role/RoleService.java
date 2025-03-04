@@ -1,11 +1,11 @@
 package shpp.shuba.todo_list.service.role;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import shpp.shuba.todo_list.dto.ResponseUserDTO;
 import shpp.shuba.todo_list.exceptions.RoleNotAssignedToUserException;
 import shpp.shuba.todo_list.exceptions.ThereIsNoRoleInDB;
-import shpp.shuba.todo_list.exceptions.TryingToTouchSuperAdmin;
 import shpp.shuba.todo_list.exceptions.UserNotFoundException;
 import shpp.shuba.todo_list.models.MyUser;
 import shpp.shuba.todo_list.models.Role;
@@ -25,6 +25,7 @@ public class RoleService implements IRoleService {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final UserService userService;
+    private final MessageSource messageSource;
 
     @Override
     public List<Role> getAllRoles() {
@@ -65,7 +66,7 @@ public class RoleService implements IRoleService {
                 .orElseThrow(ThereIsNoRoleInDB::new);
 
         if (!userRoles.contains(roleToRemove)) {
-            throw new RoleNotAssignedToUserException();
+            throw new RoleNotAssignedToUserException(messageSource);
         }
 
         userRoles.remove(roleToRemove);

@@ -1,5 +1,7 @@
 package shpp.shuba.todo_list.controllers.exceptions;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -9,8 +11,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import shpp.shuba.todo_list.exceptions.*;
 
+import java.util.Locale;
+
 @RestControllerAdvice
+@RequiredArgsConstructor
 public class GlobalExceptionHandler {
+
+    private final MessageSource messageSource;
 
     // @Valid
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -37,33 +44,39 @@ public class GlobalExceptionHandler {
 
     // --------------------- My ex
 
+
+    @ExceptionHandler(BaseLocalizedException.class)
+    public ProblemDetail handleLocalizedEx(BaseLocalizedException e) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+    }
+
     @ExceptionHandler(ThereIsNoRoleInDB.class)
-    public ProblemDetail handleRoleEx(ThereIsNoRoleInDB e) {
+    public ProblemDetail handleThereIsNoRoleInDB(ThereIsNoRoleInDB e) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
     @ExceptionHandler(TaskNotFoundException.class)
-    public ProblemDetail handleRoleEx(TaskNotFoundException e) {
+    public ProblemDetail handleTaskNotFoundException(TaskNotFoundException e) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
     @ExceptionHandler(UserNotFoundException.class)
-    public ProblemDetail handleRoleEx(UserNotFoundException e) {
+    public ProblemDetail handleUserNotFoundException(UserNotFoundException e) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
     @ExceptionHandler(WrongStatusException.class)
-    public ProblemDetail handleRoleEx(WrongStatusException e) {
+    public ProblemDetail handleWrongStatusException(WrongStatusException e) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
-    @ExceptionHandler(RoleNotAssignedToUserException.class)
-    public ProblemDetail handleRoleEx(RoleNotAssignedToUserException e) {
-        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
-    }
+//    @ExceptionHandler(RoleNotAssignedToUserException.class)
+//    public ProblemDetail handleRoleNotAssignedToUserException(RoleNotAssignedToUserException e) {
+//        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+//    }
 
-    @ExceptionHandler(TryingToTouchSuperAdmin.class)
-    public ProblemDetail handleRoleEx(TryingToTouchSuperAdmin e) {
-        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
-    }
+//    @ExceptionHandler(TryingToTouchSuperAdmin.class)
+//    public ProblemDetail handleTryingToTouchSuperAdmin(TryingToTouchSuperAdmin e) {
+//        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+//    }
 }

@@ -1,4 +1,4 @@
-package shpp.shuba.todo_list.config;
+package shpp.shuba.todo_list.config.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

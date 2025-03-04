@@ -1,6 +1,7 @@
 package shpp.shuba.todo_list.service.user;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +25,7 @@ public class UserService implements IUserService {
 
     public static final int ADMIN_ID = 1;
     private final UserRepository userRepository;
+    private final MessageSource messageSource;
 
     @Override
     public ResponseUserDTO getUserById(Long id) {
@@ -80,7 +82,7 @@ public class UserService implements IUserService {
 
     public void throwIfSuperAdmin(Long id) {
         if (id == ADMIN_ID) {
-            throw new TryingToTouchSuperAdmin();
+            throw new TryingToTouchSuperAdmin(messageSource);
         }
     }
 
