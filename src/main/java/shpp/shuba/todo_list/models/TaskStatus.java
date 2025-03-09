@@ -5,7 +5,7 @@ import java.util.EnumSet;
 import java.util.Map;
 import java.util.Set;
 
-public enum TaskStatus {
+public enum TaskStatus { // перечисление СТУСА задачи
     PLANNED,
     WORK_IN_PROGRESS,
     POSTPONED,

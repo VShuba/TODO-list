@@ -44,7 +44,7 @@ public class RoleController {
     @ApiResponse(responseCode = "200", description = "User successfully updated")
     @ApiResponse(responseCode = "404", description = "User not found, role not found in DB")
     @PreAuthorize("hasRole('ADMIN')")
-    @PatchMapping("/{id}/roles/{roleName}")
+    @PatchMapping("/{id}/{roleName}")
     public ResponseEntity<ResponseUserDTO> setNewRoleById(@PathVariable Long id, @PathVariable RoleName roleName) {
         return ResponseEntity.ok(roleService.addUserRoleById(id, roleName));
     }
@@ -53,7 +53,7 @@ public class RoleController {
     @ApiResponse(responseCode = "204", description = "Role successfully deleted")
     @ApiResponse(responseCode = "404", description = "Role not found")
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/{id}/roles/{roleName}")
+    @DeleteMapping("/{id}/{roleName}")
     public ResponseEntity<ResponseUserDTO> removeRoleById(@PathVariable Long id, @PathVariable RoleName roleName) {
         return ResponseEntity.ok(roleService.removeUserRoleById(id, roleName));
     }

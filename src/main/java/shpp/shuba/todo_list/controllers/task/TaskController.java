@@ -43,14 +43,14 @@ public class TaskController {
     }
 
     @Operation(summary = "Update task status", description = "Changes task status with validation")
-    @PreAuthorize("#id == authentication.principal.id or hasAnyRole('ADMIN','MODERATOR')")
+    @PreAuthorize("hasAnyRole('ADMIN','MODERATOR')")
     @PatchMapping("/{id}/status")
     public ResponseEntity<ResponseTaskDTO> updateTaskStatus(@PathVariable Long id, @Valid @RequestParam TaskStatus newStatus) {
         return ResponseEntity.ok(taskService.updateTaskStatus(id, newStatus));
     }
 
     @Operation(summary = "Delete a task", description = "Removes a task by its ID")
-    @PreAuthorize("#id == authentication.principal.id or hasAnyRole('ADMIN','MODERATOR')")
+    @PreAuthorize("hasAnyRole('ADMIN','MODERATOR')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
         taskService.deleteTask(id);
